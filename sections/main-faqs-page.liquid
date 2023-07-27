@@ -1,0 +1,158 @@
+{{ 'section-main-page.css' | asset_url | stylesheet_tag }}
+{{ 'section-main-faqs.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+   
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  .page--banner.section-{{ section.id }}-banner-padding{
+      position:relative;
+      background-image:url({{ section.settings.banner_image | img_url:'master' }});
+      background-repeat:no-repeat;
+      background-size:cover;
+      background-position:center;
+         padding-top: {{ section.settings.padding_top_banner | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom_banner | times: 0.75 | round: 0 }}px;
+  }
+   .page--banner.section-{{ section.id }}-banner-padding::after{
+      content:"";
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      bottom: 0px;
+      width: 100%;
+      background: rgba(0, 0, 0, .3);
+  }
+   .page--banner.section-{{ section.id }}-banner-padding h1{
+      color:#ffffff;
+      text-align:center;
+      position:relative;
+     z-index:10;
+   }
+{%- endstyle -%}
+
+<div class="page--banner section-{{ section.id }}-banner-padding">
+  <div class="page-width ">
+   <h1 class="main-page-title page-title h0{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+    {{ page.title | escape }}
+  </h1>
+  </div>
+</div>
+
+
+<div class="page-width section-{{ section.id }}-padding">
+   
+  <div class="rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+     <fa-qestion class="faqs">
+       {% for block in section.blocks %}
+         <div class="faqs--questions-wrapper {% if forloop.index == 1 %}active{% endif %}">
+            <h3>
+               {{ block.settings.question }}
+            </h3>
+           <div class="answer">
+             {{ block.settings.answer }}
+           </div>
+         </div>
+       {% endfor %}
+     </fa-qestion>
+  </div>
+</div>
+
+<script src="{{ 'section-main-faqs.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "FAQ's Page",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_banner",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_banner",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+   
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+    
+  ],
+  "blocks":[
+    {
+      "name":"FAQ",
+      "type":"faq",
+      "settings":[
+        {
+          "type":"text",
+          "id":"question",
+          "label":"Question"
+        },
+        {
+          "type":"textarea",
+          "id":"answer",
+          "label":"Answer"
+        }
+      ]
+    }
+  ],
+  "presets":[
+    {
+      "name":"FAQ's Page"
+    }
+  ]
+}
+{% endschema %}

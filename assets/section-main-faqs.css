@@ -1,0 +1,25 @@
+.faqs--questions-wrapper{
+  box-shadow:2px 2px 5px rgba(0, 0, 0, .5);
+  margin-bottom:1rem;
+  padding:20px;
+  border-radius:3px;
+  cursor:pointer;
+  transition:all .3s ease-in;
+    
+}
+.faqs--questions-wrapper h3{
+  margin:0px;
+}
+
+.faqs--questions-wrapper:not(.active) .answer{
+  display:none;
+padding: 10px 0px;
+}
+
+.faqs--questions-wrapper:not(.active):hover{
+  background:#000000;
+
+}
+.faqs--questions-wrapper:not(.active):hover h3{
+  color:#ffffff;
+}
