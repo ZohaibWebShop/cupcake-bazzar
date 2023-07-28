@@ -26,6 +26,7 @@
   {%- endstyle -%}
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-options.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
   {% if section.settings.image_zoom == 'hover' %}
     <script id="EnableZoomOnHover-main" src="{{ 'magnify.js' | asset_url }}" defer="defer"></script>
@@ -311,6 +312,18 @@
 
             {%- when 'variant_picker' -%}
               {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+              <product-options 
+                    data-varitant='{{ product.selected_or_first_available_variant | json }}' 
+                    data-varitants='{{ product.variants | json }}'
+                    data-metafield='{{ product.metafields.custom | json }}'>
+                <div class="flavours--wrappers">
+                  <fieldset>
+                      <legend>Flavours</legend>
+                      <div class="flavours--render">
+                      </div>
+                  </fieldset>
+              </div>
+              </product-options>
             {%- when 'buy_buttons' -%}
               {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
             {%- when 'rating' -%}
